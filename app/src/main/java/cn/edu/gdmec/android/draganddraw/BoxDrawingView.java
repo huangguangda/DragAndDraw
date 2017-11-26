@@ -1,6 +1,7 @@
 package cn.edu.gdmec.android.draganddraw;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.util.AttributeSet;
@@ -15,11 +16,11 @@ import java.util.List;
  * Created by Jack on 2017/11/26.
  */
 
-public class BoxDrawingView extends View{
+public class BoxDrawingView extends View {
     private static final String TAG = "BoxDrawingView";
 
     private Box mCurrentBox;
-    private List<Box> mButton=new ArrayList<> (  );
+    private List<Box> mBoxen=new ArrayList<> (  );
     private Paint mBoxPaint;
     private Paint mBackgroundPaint;
 
@@ -36,6 +37,19 @@ public class BoxDrawingView extends View{
     }
 
     @Override
+    protected void onDraw(Canvas canvas){
+        canvas.drawPaint ( mBackgroundPaint );
+
+        for (Box box : mBoxen){
+            float left = Math.min ( box.getOrigin ().x, box.getCurrent ().x );
+            float right = Math.max ( box.getOrigin ().x, box.getCurrent ().x );
+            float top = Math.min ( box.getOrigin ().y, box.getCurrent ().y );
+            float bottom = Math.max ( box.getOrigin ().y, box.getCurrent ().y );
+
+            canvas.drawRect ( left,top, right, bottom, mBoxPaint );
+        }
+    }
+    @Override
     public boolean onTouchEvent(MotionEvent event){
         PointF current = new PointF ( event.getX (), event.getY () );
         String action = "";
@@ -43,7 +57,7 @@ public class BoxDrawingView extends View{
             case MotionEvent.ACTION_DOWN:
                 action = "ACTION_DOWN";
                 mCurrentBox = new Box ( current );
-                mButton.add ( mCurrentBox );
+                mBoxen.add ( mCurrentBox );
                 break;
             case MotionEvent.ACTION_MOVE:
                 action = "ACTION_MOVE";

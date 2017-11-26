@@ -11,7 +11,7 @@ public class DragAndDrawActivity extends SingleFragmentActivity {
     }
 
    /* @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate ( savedInstanceState );
         setContentView ( R.layout.fragment_drag_and_draw );
     }*/
